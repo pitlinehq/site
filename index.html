@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pitline — supervision for AI coding agents</title>
+  <meta name="description" content="Pitline is web-native supervision for AI coding agents: watch, control, and approve your agents from any device, including your phone.">
+  <link rel="icon" type="image/png" href="/assets/pitline-app-icon.png">
+  <meta property="og:title" content="Pitline — supervision for AI coding agents">
+  <meta property="og:description" content="Watch, control, and approve your AI coding agents from any device.">
+  <meta property="og:image" content="https://pitline.dev/assets/pitline-og.png">
+  <meta property="og:url" content="https://pitline.dev">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --graphite: #101315;
+      --signal: #CFFF3D;
+      --warm-white: #F4F1E8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--graphite);
+      color: var(--warm-white);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    main {
+      max-width: 40rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.75rem;
+    }
+    .lockup { width: min(320px, 70vw); height: auto; }
+    h1 {
+      font-size: clamp(1.35rem, 4vw, 1.9rem);
+      font-weight: 650;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+    h1 .accent { color: var(--signal); }
+    p.lede {
+      font-size: clamp(1rem, 2.5vw, 1.125rem);
+      line-height: 1.65;
+      color: color-mix(in srgb, var(--warm-white) 82%, transparent);
+      max-width: 34rem;
+    }
+    footer {
+      margin-top: 4rem;
+      font-size: 0.85rem;
+      color: color-mix(in srgb, var(--warm-white) 45%, transparent);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="lockup" src="/assets/pitline-lockup-dark.png" alt="Pitline" width="900" height="300">
+    <h1>Supervision for AI coding agents,<br>from <span class="accent">any device</span>.</h1>
+    <p class="lede">
+      Pitline lets you watch, control, and approve your AI coding agents from anywhere —
+      a blocked agent sends a push notification, and one tap from your phone resumes it.
+      Open-source client, with a cloud subscription and mobile app on the way.
+    </p>
+  </main>
+  <footer>© 2026 Pitline Inc. · Boca Raton, FL</footer>
+</body>
+</html>
