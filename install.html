@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="/assets/pitline-app-icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <title>Install — Pitline</title>
+  <meta name="description" content="Install the Pitline client on your own computer. Fully local: no analytics, telemetry, or other data collection from the product.">
+</head>
+<body>
+  <header><a href="/"><img src="/assets/pitline-lockup-dark.png" alt="Pitline" width="900" height="300"></a></header>
+  <main class="page prose">
+    <h1>Install</h1>
+    <p>Pitline is a client you run on your own computer. It does not send analytics, telemetry, crash reports, or session data to Pitline Inc. Agent sessions, terminals, and config stay on that machine unless you send them somewhere yourself.</p>
+    <p>Google Analytics, if present, is only on this website (pitline.dev). It is not in the product.</p>
+
+    <h2>macOS and Linux</h2>
+    <p>Binaries are published to the public <a href="https://github.com/pitlinehq/releases">pitlinehq/releases</a> repo (source stays in a private repository). After the first version tag, install with:</p>
+    <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre>
+    <p>Then install the background service (daemon + keeper):</p>
+    <pre><code>pitline install-service</code></pre>
+    <p>Open the local UI at <code>http://127.0.0.1:7337</code> and run <code>pitline doctor</code> if something looks off.</p>
+    <p>No installer is published yet. That curl will 404 until we cut the first release. Until then, people with source access can build with <code>cargo install --path crates/pitline</code> from a private clone.</p>
+
+    <h2>What you should know</h2>
+    <ul>
+      <li>macOS Gatekeeper: until Pitline Inc.’s Apple Developer org is approved and we sign with Developer ID + notarize, macOS may block the unsigned binary. That is expected.</li>
+      <li>Homebrew is not set up yet (no <code>pitlinehq/homebrew-tap</code>).</li>
+      <li>There is no App Store build and no iOS app.</li>
+      <li>The installer puts <code>pitline</code> on your PATH (typically <code>~/.local/bin</code>). It does not create a Pitline Inc. account or phone home.</li>
+    </ul>
+  </main>
+  <footer>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/install.html">Install</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </nav>
+    <div>Pitline Inc., a Delaware C-corporation</div>
+    <div>3015 Equestrian Drive, Boca Raton, FL 33434-3357</div>
+    <div><a href="mailto:max@pitline.dev">max@pitline.dev</a></div>
+    <div class="legal">© 2026 Pitline Inc.</div>
+  </footer>
+</body>
+</html>

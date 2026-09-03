@@ -63,3 +63,17 @@ footer {
 footer nav { margin-bottom: 0.75rem; }
 footer nav a { margin: 0 0.45rem; color: color-mix(in srgb, var(--warm-white) 70%, transparent); }
 footer .legal { margin-top: 0.35rem; }
+
+.prose pre {
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+  margin: 0 0 0.85rem;
+  background: color-mix(in srgb, var(--warm-white) 8%, transparent);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
