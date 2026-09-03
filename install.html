@@ -23,6 +23,12 @@
     <p>Open the local UI at <code>http://127.0.0.1:7337</code> and run <code>pitline doctor</code> if something looks off.</p>
     <p>No installer is published yet. That curl will 404 until we cut the first release. Until then, people with source access can build with <code>cargo install --path crates/pitline</code> from a private clone.</p>
 
+    <h2>From another device (Tailscale)</h2>
+    <p>Pitline does not ship a cloud or a mobile app. The UI is still the local daemon in a browser. To open it from a phone or another computer on <em>your</em> tailnet (or LAN), bind off loopback in config:</p>
+    <pre><code>bind = "0.0.0.0:7337"</code></pre>
+    <p>Then visit <code>http://&lt;this-machine's-Tailscale-IP&gt;:7337</code>. That traffic stays on your network. It is not a Pitline Inc. service and it does not send sessions to us.</p>
+    <p>Local auth is off by default, so anyone who can reach that port can control your agents. Use Tailscale ACLs, or set <code>local_auth = "token"</code> and sign in with the value from <code>pitline token</code>.</p>
+
     <h2>What you should know</h2>
     <ul>
       <li>macOS Gatekeeper: until Pitline Inc.’s Apple Developer org is approved and we sign with Developer ID + notarize, macOS may block the unsigned binary. That is expected.</li>
