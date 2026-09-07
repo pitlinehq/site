@@ -35,9 +35,32 @@
 pitline install-service</code></pre>
     <p>The formula downloads the same prebuilt archives from <a href="https://github.com/pitlinehq/releases">pitlinehq/releases</a>. The tap is <a href="https://github.com/pitlinehq/homebrew-tap">pitlinehq/homebrew-tap</a>.</p>
 
+    <h2>macOS without a Developer ID signature</h2>
+    <p>Until Pitline Inc.’s Apple Developer org is approved and we ship Developer ID–signed + notarized builds, macOS Gatekeeper will treat the download as unsigned. That is expected. You are installing software you chose from our public releases; this is not an App Store build.</p>
+    <p>After the curl installer or Homebrew finishes, clear the quarantine flag macOS adds to downloaded files:</p>
+    <pre><code># if pitline landed in ~/.local/bin (curl installer default)
+xattr -d com.apple.quarantine ~/.local/bin/pitline 2>/dev/null || true
+
+# Homebrew keg (path varies by Intel vs Apple Silicon)
+xattr -dr com.apple.quarantine "$(brew --prefix)/Cellar/pitline" 2>/dev/null || true</code></pre>
+    <p>Then run:</p>
+    <pre><code>pitline install-service
+pitline doctor</code></pre>
+    <p>If macOS still blocks it (“cannot be opened because the developer cannot be verified”):</p>
+    <ol>
+      <li>Open <strong>System Settings → Privacy &amp; Security</strong>.</li>
+      <li>Find the message about <code>pitline</code> being blocked and choose <strong>Open Anyway</strong> (you may need to scroll).</li>
+      <li>Confirm again if prompted, then re-run <code>pitline doctor</code>.</li>
+    </ol>
+    <p>Or in Finder: locate the <code>pitline</code> binary, Control-click (right-click) → <strong>Open</strong>, then confirm. Do this once; later launches from Terminal should work.</p>
+    <p>If launchd refuses the service after install, unload and retry after the Open Anyway step:</p>
+    <pre><code>launchctl bootout "gui/$(id -u)/com.pitline.daemon" 2>/dev/null || true
+launchctl bootout "gui/$(id -u)/com.pitline.keeper" 2>/dev/null || true
+pitline install-service</code></pre>
+    <p>Signed and notarized Mac builds will replace this section when Apple enrollment is done. There is still no App Store or iOS app.</p>
+
     <h2>What you should know</h2>
     <ul>
-      <li>macOS Gatekeeper: until Pitline Inc.’s Apple Developer org is approved and we sign with Developer ID + notarize, macOS may block the unsigned binary. That is expected.</li>
       <li>There is no App Store build and no iOS app.</li>
       <li>The installer puts <code>pitline</code> on your PATH (typically <code>~/.local/bin</code>). It does not create a Pitline Inc. account or phone home.</li>
     </ul>

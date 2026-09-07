@@ -83,3 +83,6 @@ footer .legal { margin-top: 0.35rem; }
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.9em;
 }
+
+.prose ol { padding-left: 1.2rem; margin-bottom: 0.85rem; }
+.prose li { margin-bottom: 0.45rem; }
