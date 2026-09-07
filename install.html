@@ -6,64 +6,116 @@
   <link rel="icon" type="image/png" href="/assets/pitline-app-icon.png">
   <link rel="stylesheet" href="/site.css">
   <title>Install — Pitline</title>
-  <meta name="description" content="Install the Pitline client on your own computer. Fully local: no analytics, telemetry, or other data collection from the product.">
+  <meta name="description" content="Install Pitline on macOS or Linux. Runs on your computer. No accounts, no telemetry.">
 </head>
 <body>
   <header><a href="/"><img src="/assets/pitline-lockup-dark.png" alt="Pitline" width="900" height="300"></a></header>
   <main class="page prose">
-    <h1>Install</h1>
-    <p>Pitline is a client you run on your own computer. It does not send analytics, telemetry, crash reports, or session data to Pitline Inc. Agent sessions, terminals, and config stay on that machine unless you send them somewhere yourself.</p>
-    <p>Google Analytics, if present, is only on this website (pitline.dev). It is not in the product.</p>
+    <h1>Install Pitline</h1>
+    <p class="lede install-lede">Supervision for AI coding agents, on your machine. No account. No telemetry from the product.</p>
 
-    <h2>macOS and Linux</h2>
-    <p>Binaries are published to the public <a href="https://github.com/pitlinehq/releases">pitlinehq/releases</a> repo (source stays in a private repository). After the first version tag, install with:</p>
-    <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre>
-    <p>Then install the background service (daemon + keeper):</p>
-    <pre><code>pitline install-service</code></pre>
-    <p>Open the local UI at <code>http://127.0.0.1:7337</code> and run <code>pitline doctor</code> if something looks off.</p>
-    <p>No installer is published yet. That curl will 404 until we cut the first release. Until then, people with source access can build with <code>cargo install --path crates/pitline</code> from a private clone.</p>
+    <div class="os-tabs" role="tablist" aria-label="Operating system">
+      <button type="button" class="os-tab is-active" role="tab" id="tab-macos" aria-selected="true" aria-controls="panel-macos" data-os="macos">macOS</button>
+      <button type="button" class="os-tab" role="tab" id="tab-linux" aria-selected="false" aria-controls="panel-linux" data-os="linux" tabindex="-1">Linux</button>
+    </div>
 
-    <h2>From another device (Tailscale)</h2>
-    <p>Pitline does not ship a cloud or a mobile app. The UI is still the local daemon in a browser. To open it from a phone or another computer on <em>your</em> tailnet (or LAN), bind off loopback in config:</p>
-    <pre><code>bind = "0.0.0.0:7337"</code></pre>
-    <p>Then visit <code>http://&lt;this-machine's-Tailscale-IP&gt;:7337</code>. That traffic stays on your network. It is not a Pitline Inc. service and it does not send sessions to us.</p>
-    <p>Local auth is off by default, so anyone who can reach that port can control your agents. Use Tailscale ACLs, or set <code>local_auth = "token"</code> and sign in with the value from <code>pitline token</code>.</p>
+    <section class="os-panel is-active" role="tabpanel" id="panel-macos" aria-labelledby="tab-macos">
+      <h2>1. Install the binary</h2>
+      <p>Pick one. Homebrew or the curl installer both put <code>pitline</code> on your PATH.</p>
 
-    <h2>Homebrew</h2>
-    <p>Once the first public binary release exists:</p>
-    <pre><code>brew install pitlinehq/tap/pitline
-pitline install-service</code></pre>
-    <p>The formula downloads the same prebuilt archives from <a href="https://github.com/pitlinehq/releases">pitlinehq/releases</a>. The tap is <a href="https://github.com/pitlinehq/homebrew-tap">pitlinehq/homebrew-tap</a>.</p>
+      <h3>Homebrew</h3>
+      <div class="cmd" data-copy>
+        <pre><code>brew install pitlinehq/tap/pitline</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy Homebrew install command">Copy</button>
+      </div>
 
-    <h2>macOS without a Developer ID signature</h2>
-    <p>Until Pitline Inc.’s Apple Developer org is approved and we ship Developer ID–signed + notarized builds, macOS Gatekeeper will treat the download as unsigned. That is expected. You are installing software you chose from our public releases; this is not an App Store build.</p>
-    <p>After the curl installer or Homebrew finishes, clear the quarantine flag macOS adds to downloaded files:</p>
-    <pre><code># if pitline landed in ~/.local/bin (curl installer default)
-xattr -d com.apple.quarantine ~/.local/bin/pitline 2>/dev/null || true
+      <h3>Curl installer</h3>
+      <div class="cmd" data-copy>
+        <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy curl install command">Copy</button>
+      </div>
 
-# Homebrew keg (path varies by Intel vs Apple Silicon)
+      <h2>2. Allow the unsigned build</h2>
+      <p>Mac builds are not Developer ID–signed yet. After install, clear the quarantine flag macOS adds to downloads:</p>
+      <div class="cmd" data-copy>
+        <pre><code>xattr -d com.apple.quarantine ~/.local/bin/pitline 2>/dev/null || true
 xattr -dr com.apple.quarantine "$(brew --prefix)/Cellar/pitline" 2>/dev/null || true</code></pre>
-    <p>Then run:</p>
-    <pre><code>pitline install-service
+        <button type="button" class="copy-btn" aria-label="Copy quarantine removal commands">Copy</button>
+      </div>
+      <p>If macOS still says the developer cannot be verified: <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>, or Control-click the binary in Finder → <strong>Open</strong> once.</p>
+
+      <h2>3. Start the service</h2>
+      <div class="cmd" data-copy>
+        <pre><code>pitline install-service
 pitline doctor</code></pre>
-    <p>If macOS still blocks it (“cannot be opened because the developer cannot be verified”):</p>
-    <ol>
-      <li>Open <strong>System Settings → Privacy &amp; Security</strong>.</li>
-      <li>Find the message about <code>pitline</code> being blocked and choose <strong>Open Anyway</strong> (you may need to scroll).</li>
-      <li>Confirm again if prompted, then re-run <code>pitline doctor</code>.</li>
-    </ol>
-    <p>Or in Finder: locate the <code>pitline</code> binary, Control-click (right-click) → <strong>Open</strong>, then confirm. Do this once; later launches from Terminal should work.</p>
-    <p>If launchd refuses the service after install, unload and retry after the Open Anyway step:</p>
-    <pre><code>launchctl bootout "gui/$(id -u)/com.pitline.daemon" 2>/dev/null || true
+        <button type="button" class="copy-btn" aria-label="Copy service install commands">Copy</button>
+      </div>
+      <p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> in your browser.</p>
+
+      <details class="more">
+        <summary>If the service will not start</summary>
+        <p>After Open Anyway, reset the agents and install again:</p>
+        <div class="cmd" data-copy>
+          <pre><code>launchctl bootout "gui/$(id -u)/com.pitline.daemon" 2>/dev/null || true
 launchctl bootout "gui/$(id -u)/com.pitline.keeper" 2>/dev/null || true
 pitline install-service</code></pre>
-    <p>Signed and notarized Mac builds will replace this section when Apple enrollment is done. There is still no App Store or iOS app.</p>
+          <button type="button" class="copy-btn" aria-label="Copy launchd reset commands">Copy</button>
+        </div>
+      </details>
 
-    <h2>What you should know</h2>
-    <ul>
-      <li>There is no App Store build and no iOS app.</li>
-      <li>The installer puts <code>pitline</code> on your PATH (typically <code>~/.local/bin</code>). It does not create a Pitline Inc. account or phone home.</li>
-    </ul>
+      <details class="more">
+        <summary>Use from another Mac or phone on your Tailscale</summary>
+        <p>In Pitline config, bind off loopback, then open the UI at your Mac’s Tailscale IP. Keep auth off only on a network you trust—or set <code>local_auth = "token"</code>.</p>
+        <div class="cmd" data-copy>
+          <pre><code>bind = "0.0.0.0:7337"</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy bind setting">Copy</button>
+        </div>
+      </details>
+    </section>
+
+    <section class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux" hidden>
+      <h2>1. Install the binary</h2>
+      <p>Pick one. Both put <code>pitline</code> on your PATH (often <code>~/.local/bin</code>).</p>
+
+      <h3>Curl installer</h3>
+      <div class="cmd" data-copy>
+        <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy curl install command">Copy</button>
+      </div>
+
+      <h3>Homebrew (Linuxbrew)</h3>
+      <div class="cmd" data-copy>
+        <pre><code>brew install pitlinehq/tap/pitline</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy Homebrew install command">Copy</button>
+      </div>
+
+      <h2>2. Start the service</h2>
+      <div class="cmd" data-copy>
+        <pre><code>pitline install-service
+pitline doctor</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy service install commands">Copy</button>
+      </div>
+      <p>On systemd user units, enable linger so Pitline survives logout:</p>
+      <div class="cmd" data-copy>
+        <pre><code>systemctl --user daemon-reload
+systemctl --user enable --now pitline-keeper.service
+systemctl --user enable --now pitline.service
+loginctl enable-linger $USER</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy systemd enable commands">Copy</button>
+      </div>
+      <p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> in your browser.</p>
+
+      <details class="more">
+        <summary>Use from another device on your Tailscale</summary>
+        <p>In Pitline config, bind off loopback, then open the UI at this machine’s Tailscale IP. Use Tailscale ACLs, or set <code>local_auth = "token"</code>.</p>
+        <div class="cmd" data-copy>
+          <pre><code>bind = "0.0.0.0:7337"</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy bind setting">Copy</button>
+        </div>
+      </details>
+    </section>
+
+    <p class="note">Public binaries are not published yet—the install commands will 404 until the first release. Builds stay local: no Pitline Inc. account, and the client does not send analytics or telemetry.</p>
   </main>
   <footer>
     <nav>
@@ -78,5 +130,71 @@ pitline install-service</code></pre>
     <div><a href="mailto:max@pitline.dev">max@pitline.dev</a></div>
     <div class="legal">© 2026 Pitline Inc.</div>
   </footer>
+  <script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.os-tab'));
+    var panels = {
+      macos: document.getElementById('panel-macos'),
+      linux: document.getElementById('panel-linux')
+    };
+    function show(os) {
+      tabs.forEach(function (tab) {
+        var on = tab.getAttribute('data-os') === os;
+        tab.classList.toggle('is-active', on);
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+      });
+      Object.keys(panels).forEach(function (key) {
+        var panel = panels[key];
+        var on = key === os;
+        panel.classList.toggle('is-active', on);
+        if (on) panel.removeAttribute('hidden');
+        else panel.setAttribute('hidden', '');
+      });
+      try { localStorage.setItem('pitline-install-os', os); } catch (e) {}
+    }
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () { show(tab.getAttribute('data-os')); });
+    });
+    var prefer = null;
+    try { prefer = localStorage.getItem('pitline-install-os'); } catch (e) {}
+    if (!prefer && /Mac|iPhone|iPad/.test(navigator.platform || '')) prefer = 'macos';
+    else if (!prefer && /Linux/.test(navigator.platform || '')) prefer = 'linux';
+    if (prefer === 'linux' || prefer === 'macos') show(prefer);
+
+    document.querySelectorAll('.cmd[data-copy]').forEach(function (wrap) {
+      var btn = wrap.querySelector('.copy-btn');
+      var code = wrap.querySelector('code');
+      if (!btn || !code) return;
+      btn.addEventListener('click', function () {
+        var text = code.innerText.replace(/\n$/, '');
+        function done() {
+          var prev = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.classList.add('is-copied');
+          setTimeout(function () {
+            btn.textContent = prev;
+            btn.classList.remove('is-copied');
+          }, 1400);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () {
+            fallback(text); done();
+          });
+        } else {
+          fallback(text); done();
+        }
+      });
+    });
+    function fallback(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+  })();
+  </script>
 </body>
 </html>

@@ -86,3 +86,96 @@ footer .legal { margin-top: 0.35rem; }
 
 .prose ol { padding-left: 1.2rem; margin-bottom: 0.85rem; }
 .prose li { margin-bottom: 0.45rem; }
+/* install page */
+.install-lede { margin-bottom: 1.5rem; }
+.os-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0 0 1.5rem;
+  padding: 0.25rem;
+  width: fit-content;
+  max-width: 100%;
+  background: color-mix(in srgb, var(--warm-white) 8%, transparent);
+  border-radius: 10px;
+}
+.os-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--warm-white) 70%, transparent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.os-tab:hover { color: var(--warm-white); }
+.os-tab.is-active {
+  background: color-mix(in srgb, var(--signal) 18%, transparent);
+  color: var(--warm-white);
+}
+.os-panel[hidden] { display: none !important; }
+.os-panel h2 { margin-top: 1.35rem; }
+.os-panel h2:first-child { margin-top: 0.25rem; }
+.os-panel h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 1rem 0 0.45rem;
+  color: color-mix(in srgb, var(--warm-white) 88%, transparent);
+}
+.cmd {
+  position: relative;
+  margin: 0 0 0.95rem;
+}
+.cmd pre {
+  margin: 0;
+  padding: 0.95rem 4.25rem 0.95rem 1rem;
+  overflow-x: auto;
+  background: color-mix(in srgb, var(--warm-white) 8%, transparent);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.cmd code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: inherit;
+  white-space: pre;
+}
+.copy-btn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  appearance: none;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--graphite) 55%, transparent);
+  color: var(--warm-white);
+}
+.copy-btn:hover { background: color-mix(in srgb, var(--signal) 28%, var(--graphite)); }
+.copy-btn.is-copied { color: var(--signal); }
+.more {
+  margin: 1.1rem 0 0.5rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--warm-white) 5%, transparent);
+  padding: 0.65rem 0.9rem;
+}
+.more summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--warm-white) 88%, transparent);
+}
+.more[open] summary { margin-bottom: 0.55rem; }
+.note {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
