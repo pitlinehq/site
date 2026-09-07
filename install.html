@@ -63,25 +63,23 @@ pitline install-service</code></pre>
         </div>
       </details>
 
-      <details class="more">
-        <summary>Use from another Mac or phone on your Tailscale</summary>
-        <p>Bind off loopback, then open the UI at your Mac’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Keep auth off only on a network you trust—or set <code>local_auth = "token"</code>.</p>
-        <p>Show the current listen address:</p>
-        <div class="cmd" data-copy>
-          <pre><code>pitline bind</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
-        </div>
-        <p>Listen on all interfaces (LAN / Tailscale):</p>
-        <div class="cmd" data-copy>
-          <pre><code>pitline bind 0.0.0.0:7337</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
-        </div>
-        <p>Change only the port (keeps the current host):</p>
-        <div class="cmd" data-copy>
-          <pre><code>pitline bind 8443</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
-        </div>
-      </details>
+      <h2>4. Use from another Mac or phone on your Tailscale</h2>
+      <p>Bind off loopback, then open the UI at your Mac’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Keep auth off only on a network you trust—or set <code>local_auth = "token"</code>.</p>
+      <p>Show the current listen address:</p>
+      <div class="cmd" data-copy>
+        <pre><code>pitline bind</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
+      </div>
+      <p>Listen on all interfaces (LAN / Tailscale):</p>
+      <div class="cmd" data-copy>
+        <pre><code>pitline bind 0.0.0.0:7337</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
+      </div>
+      <p>Change only the port (keeps the current host):</p>
+      <div class="cmd" data-copy>
+        <pre><code>pitline bind 8443</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
+      </div>
     </section>
 
     <section class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux" hidden>
@@ -113,25 +111,23 @@ pitline doctor</code></pre>
       </div>
       <p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> in your browser.</p>
 
-      <details class="more">
-        <summary>Use from another device on your Tailscale</summary>
-        <p>Bind off loopback, then open the UI at this machine’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Use Tailscale ACLs, or set <code>local_auth = "token"</code>.</p>
-        <p>Show the current listen address:</p>
-        <div class="cmd" data-copy>
-          <pre><code>pitline bind</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
-        </div>
-        <p>Listen on all interfaces (LAN / Tailscale):</p>
-        <div class="cmd" data-copy>
-          <pre><code>pitline bind 0.0.0.0:7337</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
-        </div>
-        <p>Change only the port (keeps the current host):</p>
-        <div class="cmd" data-copy>
-          <pre><code>pitline bind 8443</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
-        </div>
-      </details>
+      <h2>3. Use from another device on your Tailscale</h2>
+      <p>Bind off loopback, then open the UI at this machine’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Use Tailscale ACLs, or set <code>local_auth = "token"</code>.</p>
+      <p>Show the current listen address:</p>
+      <div class="cmd" data-copy>
+        <pre><code>pitline bind</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
+      </div>
+      <p>Listen on all interfaces (LAN / Tailscale):</p>
+      <div class="cmd" data-copy>
+        <pre><code>pitline bind 0.0.0.0:7337</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
+      </div>
+      <p>Change only the port (keeps the current host):</p>
+      <div class="cmd" data-copy>
+        <pre><code>pitline bind 8443</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
+      </div>
     </section>
 
     <p class="note">Pitline runs on your machine. No Pitline Inc. account. The client does not send analytics or telemetry.</p>
