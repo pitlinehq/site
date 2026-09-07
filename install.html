@@ -65,10 +65,21 @@ pitline install-service</code></pre>
 
       <details class="more">
         <summary>Use from another Mac or phone on your Tailscale</summary>
-        <p>In Pitline config, bind off loopback, then open the UI at your Mac’s Tailscale IP. Keep auth off only on a network you trust—or set <code>local_auth = "token"</code>.</p>
+        <p>Bind off loopback, then open the UI at your Mac’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Keep auth off only on a network you trust—or set <code>local_auth = "token"</code>.</p>
+        <p>Show the current listen address:</p>
         <div class="cmd" data-copy>
-          <pre><code>bind = "0.0.0.0:7337"</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy bind setting">Copy</button>
+          <pre><code>pitline bind</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
+        </div>
+        <p>Listen on all interfaces (LAN / Tailscale):</p>
+        <div class="cmd" data-copy>
+          <pre><code>pitline bind 0.0.0.0:7337</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
+        </div>
+        <p>Change only the port (keeps the current host):</p>
+        <div class="cmd" data-copy>
+          <pre><code>pitline bind 8443</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
         </div>
       </details>
     </section>
@@ -107,10 +118,21 @@ loginctl enable-linger $USER</code></pre>
 
       <details class="more">
         <summary>Use from another device on your Tailscale</summary>
-        <p>In Pitline config, bind off loopback, then open the UI at this machine’s Tailscale IP. Use Tailscale ACLs, or set <code>local_auth = "token"</code>.</p>
+        <p>Bind off loopback, then open the UI at this machine’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Use Tailscale ACLs, or set <code>local_auth = "token"</code>.</p>
+        <p>Show the current listen address:</p>
         <div class="cmd" data-copy>
-          <pre><code>bind = "0.0.0.0:7337"</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy bind setting">Copy</button>
+          <pre><code>pitline bind</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
+        </div>
+        <p>Listen on all interfaces (LAN / Tailscale):</p>
+        <div class="cmd" data-copy>
+          <pre><code>pitline bind 0.0.0.0:7337</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
+        </div>
+        <p>Change only the port (keeps the current host):</p>
+        <div class="cmd" data-copy>
+          <pre><code>pitline bind 8443</code></pre>
+          <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
         </div>
       </details>
     </section>
