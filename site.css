@@ -21,6 +21,8 @@ header { width: 100%; max-width: 42rem; margin-bottom: 2rem; }
 header img { width: min(220px, 55vw); height: auto; }
 .page { width: 100%; max-width: 42rem; }
 .hero {
+  width: 100%;
+  max-width: 42rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -28,9 +30,13 @@ header img { width: min(220px, 55vw); height: auto; }
   gap: 1.75rem;
   padding-top: 8vh;
 }
+.hero h1,
+.hero .lede {
+  max-width: 100%;
+}
 .hero .lockup { width: min(320px, 70vw); height: auto; }
 h1 {
-  font-size: clamp(1.35rem, 4vw, 1.9rem);
+  font-size: clamp(1.35rem, 2.4vw + 0.9rem, 1.9rem);
   font-weight: 650;
   line-height: 1.25;
   letter-spacing: -0.01em;
