@@ -29,10 +29,15 @@
     <p>Then visit <code>http://&lt;this-machine's-Tailscale-IP&gt;:7337</code>. That traffic stays on your network. It is not a Pitline Inc. service and it does not send sessions to us.</p>
     <p>Local auth is off by default, so anyone who can reach that port can control your agents. Use Tailscale ACLs, or set <code>local_auth = "token"</code> and sign in with the value from <code>pitline token</code>.</p>
 
+    <h2>Homebrew</h2>
+    <p>Once the first public binary release exists:</p>
+    <pre><code>brew install pitlinehq/tap/pitline
+pitline install-service</code></pre>
+    <p>The formula downloads the same prebuilt archives from <a href="https://github.com/pitlinehq/releases">pitlinehq/releases</a>. The tap is <a href="https://github.com/pitlinehq/homebrew-tap">pitlinehq/homebrew-tap</a>.</p>
+
     <h2>What you should know</h2>
     <ul>
       <li>macOS Gatekeeper: until Pitline Inc.’s Apple Developer org is approved and we sign with Developer ID + notarize, macOS may block the unsigned binary. That is expected.</li>
-      <li>Homebrew is not set up yet (no <code>pitlinehq/homebrew-tap</code>).</li>
       <li>There is no App Store build and no iOS app.</li>
       <li>The installer puts <code>pitline</code> on your PATH (typically <code>~/.local/bin</code>). It does not create a Pitline Inc. account or phone home.</li>
     </ul>
