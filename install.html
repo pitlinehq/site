@@ -106,13 +106,10 @@ pitline install-service</code></pre>
 pitline doctor</code></pre>
         <button type="button" class="copy-btn" aria-label="Copy service install commands">Copy</button>
       </div>
-      <p>On systemd user units, enable linger so Pitline survives logout:</p>
+      <p><code>install-service</code> writes and enables the systemd user units. Enable linger so they keep running after logout:</p>
       <div class="cmd" data-copy>
-        <pre><code>systemctl --user daemon-reload
-systemctl --user enable --now pitline-keeper.service
-systemctl --user enable --now pitline.service
-loginctl enable-linger $USER</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy systemd enable commands">Copy</button>
+        <pre><code>loginctl enable-linger $USER</code></pre>
+        <button type="button" class="copy-btn" aria-label="Copy enable-linger command">Copy</button>
       </div>
       <p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> in your browser.</p>
 
