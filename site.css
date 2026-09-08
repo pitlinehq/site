@@ -65,7 +65,7 @@ img {
   display:none!important;
 }
 
-.shell {
+.shell,.page {
   width:min(1200px,calc(100% - 96px));
   margin-inline:auto;
 }
@@ -641,8 +641,7 @@ h3 {
 
 /* Long-form pages share the landing page navigation and type system. */
 .page {
-  width:min(760px,calc(100% - 96px));
-  margin:65px auto 85px;
+  margin-block:65px 85px;
 }
 
 .page h1 {
@@ -672,6 +671,7 @@ h3 {
 
 .prose .lede {
   font-size:1.15rem;
+  max-width:75ch;
 }
 
 .prose ul,.prose ol {
@@ -681,6 +681,11 @@ h3 {
 
 .prose li {
   padding-left:.2rem;
+}
+
+/* Keep long documentation readable inside the shared page container. */
+.prose p,.prose ol,.prose ul {
+  max-width:85ch;
 }
 
 .prose strong {
@@ -913,7 +918,7 @@ h3 {
 }
 
 @media(max-width:1000px) {
-  .shell {
+  .shell,.page {
     width:calc(100% - 56px);
   }
   .hero {
@@ -950,13 +955,10 @@ h3 {
   .faq-section {
     gap:40px;
   }
-  .page {
-    width:min(760px,calc(100% - 56px));
-  }
 }
 
 @media(max-width:700px) {
-  .shell {
+  .shell,.page {
     width:calc(100% - 40px);
   }
   .site-header {
@@ -1152,7 +1154,6 @@ h3 {
     margin-top:15px;
   }
   .page {
-    width:calc(100% - 40px);
     margin-block:40px 60px;
   }
   .page h1 {

@@ -8,7 +8,7 @@
 <meta name="description" content="Follow your coding agents, manage conversations, and respond to approval requests from your browser. Pitline runs on your Mac or Linux machine. No account required.">
 <link rel="canonical" href="https://pitline.dev/">
 <link rel="icon" type="image/png" href="/assets/pitline-app-icon.png">
-<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/site.css?v=2">
 <script src="/site.js" defer>
 </script>
 <meta property="og:title" content="Pitline — your agents, within reach">
@@ -38,7 +38,7 @@
 <h1 id="hero-title">Supervise your<br>coding agents.<br>
 <span class="accent">From your browser.</span>
 </h1>
-<p class="lede">Follow their work. Keep the conversation going. Respond when they need your approval—from your desktop or phone.</p>
+<p class="lede">Follow your agents in Chat or their own terminal UI (TUI). Keep the conversation going and respond when they need you—from your desktop or phone.</p>
 <div class="actions">
 <a class="button" href="/install.html">Install Pitline <span aria-hidden="true">↗</span>
 </a>
@@ -79,7 +79,7 @@
 <li>
 <span class="step-number">02</span>
 <h3>Follow the work</h3>
-<p>See which sessions are working or need attention. Open Chat for the conversation, or Terminal for the full session.</p>
+<p>See which sessions are working or need attention. Every supported agent has both Chat and its own TUI, accessible through the browser.</p>
 </li>
 <li>
 <span class="step-number">03</span>
@@ -118,9 +118,9 @@
 <p>Working, waiting, done, or in trouble. Session state and attention filters help you decide where to look next.</p>
 </article>
 <article>
-<span class="feature-index">02 / CONVERSATION</span>
-<h3>Pick up the thread</h3>
-<p>Follow agent history, send a new message, and interrupt or steer where the integration supports it.</p>
+<span class="feature-index">02 / TWO VIEWS</span>
+<h3>Chat and the agent’s own TUI</h3>
+<p>Read the conversation in Chat. Switch to Terminal to use the agent’s original interactive interface. Both views are available for every supported agent.</p>
 </article>
 <article>
 <span class="feature-index">03 / CONTEXT</span>
@@ -137,32 +137,32 @@
 <section id="agents" class="section section-border shell" aria-labelledby="agents-title">
 <div class="section-heading">
 <p class="eyebrow">Bring your coding agent</p>
-<h2 id="agents-title">Your tools.<br>A shared place to supervise.</h2>
-<p>Install and sign in to your agent separately, then start a managed session in Pitline for its supported Chat and approval controls.</p>
+<h2 id="agents-title">Every supported agent.<br>Chat and TUI access.</h2>
+<p>Claude Code, Codex, Grok, and OpenCode each offer a Chat view and access to the agent’s own TUI in Terminal. Install and sign in to your agent separately, then bring it into Pitline.</p>
 </div>
 <div class="agent-grid">
 <article>
 <h3>Claude Code</h3>
-<span class="availability">Chat &amp; approvals</span>
+<span class="availability">Chat + agent TUI</span>
 <p>Conversations, questions, tool approvals, and supported session controls.</p>
 </article>
 <article>
 <h3>Codex</h3>
-<span class="availability">Chat &amp; approvals</span>
+<span class="availability">Chat + agent TUI</span>
 <p>Conversations, approval requests, plans, diffs, and supported session controls.</p>
 </article>
 <article>
 <h3>Grok</h3>
-<span class="availability">Chat &amp; approvals</span>
+<span class="availability">Chat + agent TUI</span>
 <p>Managed conversations and approval requests through the ACP integration.</p>
 </article>
 <article>
 <h3>OpenCode</h3>
-<span class="availability">Chat &amp; approvals</span>
-<p>Managed conversations, live updates, approval requests, and terminal access.</p>
+<span class="availability">Chat + agent TUI</span>
+<p>Managed conversations, live updates, approval requests, and interruption.</p>
 </article>
 </div>
-<p class="section-note">Support varies by agent and session ownership. Sessions started outside Pitline may offer fewer controls. Pi provides lifecycle hooks; other CLIs can run in plain terminals. <a href="/guide.html#agents">Read the compatibility guide</a>.</p>
+<p class="section-note">Both views are available across these agents. Chat actions such as sending messages, steering, and approvals depend on the integration and session ownership. <a href="/guide.html#agents">Read the compatibility guide</a>.</p>
 </section>
 <section class="section section-border shell terminal-section" aria-labelledby="terminal-title">
 <div class="section-heading">
@@ -228,7 +228,7 @@
 </li>
 <li>
 <strong>Open your browser</strong>
-<span>Visit <code>127.0.0.1:7337</code>. Choose New agent, a launch folder, and Chat.</span>
+<span>Visit <code>127.0.0.1:7337</code>. Start an agent, then use Chat or open its TUI in Terminal.</span>
 </li>
 </ol>
 <a class="button" href="/install.html">Follow the installation guide <span aria-hidden="true">↗</span>
@@ -250,8 +250,12 @@
 <p>Yes, through your phone’s browser when it can reach the machine running Pitline. Use a private network such as Tailscale and configure access appropriately. A native mobile app and hosted cloud access are planned, not available today. <a href="/guide.html#remote-access">Set up access</a>.</p>
 </details>
 <details>
+<summary>Can I use my agent’s original terminal interface?</summary>
+<p>Yes. Every supported agent offers both Chat and its own terminal UI (TUI). Choose Chat for the conversation or Terminal for the agent’s original interactive interface, all in your browser. This is separate from Pitline’s ordinary shell sessions.</p>
+</details>
+<details>
 <summary>Can I approve every request from every agent?</summary>
-<p>Approval support depends on the agent, the request, and who owns the session. Start a managed session in Pitline for supported controls. External Claude hook approvals require separate setup; plain terminal access does not provide structured approval support. <a href="/guide.html#agents">Compare integrations</a>.</p>
+<p>Approval support depends on the agent, the request, and who owns the session. Start a managed session in Pitline for supported controls. External Claude hook approvals require separate setup. These limits concern approval controls in Chat; you can also interact with the agent through its own TUI. <a href="/guide.html#agents">Compare integrations</a>.</p>
 </details>
 <details>
 <summary>What happens when I close my browser?</summary>
@@ -262,8 +266,8 @@
 <p>The local product does not send your sessions, code, analytics, or telemetry to Pitline Inc. Browser connections go to your machine over the network you choose. Your coding agent may contact its own provider as usual. <a href="/privacy.html">Read the privacy notice</a>.</p>
 </details>
 <details>
-<summary>What does it cost, and where is the source?</summary>
-<p>The local Pitline software is licensed under Apache-2.0 and requires no Pitline subscription. Agent-provider costs are separate. <a href="https://github.com/pitlinehq/pitline">Browse the source</a>. A future cloud subscription is not available to purchase today.</p>
+<summary>Do I still pay my coding-agent provider?</summary>
+<p>Yes. Your agent provider’s subscriptions and usage charges still apply. Pitline uses your existing agent installations and accounts. A future Pitline cloud subscription is not available to purchase today.</p>
 </details>
 <details>
 <summary>Which platforms and session providers are supported?</summary>
@@ -287,7 +291,6 @@
 <nav aria-label="Footer navigation">
 <a href="/install.html">Install</a>
 <a href="/guide.html">Guide</a>
-<a href="https://github.com/pitlinehq/pitline">Source</a>
 <a href="https://github.com/pitlinehq/releases/releases">Releases</a>
 <a href="/contact.html">Contact</a>
 <a href="/privacy.html">Privacy</a>

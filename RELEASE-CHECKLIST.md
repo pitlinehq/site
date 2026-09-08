@@ -8,7 +8,8 @@ The website draft assumes release binaries will be published. This checklist is 
 - [ ] Verify every advertised OS/architecture archive exists, downloads successfully, and matches the published checksum. Test the advertised Linux libc variants as applicable.
 - [ ] Confirm release notes state actual platform requirements, signing/notarization status, known limitations, and upgrade instructions. Add tested OS/agent versions only after recording evidence.
 - [ ] Reconcile installer destination/PATH output with the installation instructions. Verify manual archive installation and checksum instructions against the final assets.
-- [ ] Confirm source, Apache-2.0 license, release history, contact, privacy and terms links are publicly accessible. Resolve any private repository links before publication.
+- [ ] Confirm release history, contact, privacy and terms links are publicly accessible.
+- [ ] Keep the private source repository unlinked. Do not add public source links or open-source licensing claims without separate authorization; refer to the notices shipped with the binaries where needed.
 - [ ] Keep Homebrew off the public instructions unless a working formula is published and independently tested.
 
 ## Clean-machine installation
@@ -21,6 +22,8 @@ The website draft assumes release binaries will be published. This checklist is 
 ## Real agent workflow
 
 - [ ] Install and authenticate each advertised agent version, then validate New agent → Launch folder → Chat → Start → message → response.
+- [ ] For each promoted integration—Claude Code, Codex, Grok and OpenCode—verify both Chat and the original agent TUI through Terminal. Switch Chat → Terminal → Chat during the same session and verify session continuity and expected controls in both views.
+- [ ] Verify both views for supported externally started sessions, distinguishing view access from ownership-gated Chat input and approvals.
 - [ ] Exercise a real supported approval and denial; confirm work resumes or stops as expected. Verify interrupt/steer controls only where advertised.
 - [ ] Recheck the managed/external compatibility table, including Codex shared-server versus standalone TUI, external Claude hook opt-in and fallback, Grok ownership, and OpenCode external visibility.
 - [ ] Confirm the known external Claude plan-approval limitation against the release agent version and adjust the guide if behavior has changed.

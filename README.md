@@ -4,6 +4,8 @@ Marketing site for [Pitline](https://pitline.dev). Static HTML, CSS and JavaScri
 
 This checkout is the launch draft on `draft/operating-company-pages`. Keep it unpublished until the [release checklist](RELEASE-CHECKLIST.md) passes. Download links are prepared for the launch binaries; their current availability is not a readiness claim. Homebrew is omitted until a formula is available.
 
+Pitline’s source repository is private. Do not add public source-repository links or open-source licensing claims without separate authorization. Binary downloads use the public release repository.
+
 ## Preview
 
 Run `python3 -m http.server 8769 --bind 127.0.0.1` from this directory and open `http://127.0.0.1:8769`.
