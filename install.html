@@ -3,213 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install — Pitline</title>
+  <meta name="description" content="Install Pitline on macOS or Linux, start the local service, and launch your first coding agent in the browser.">
+  <link rel="canonical" href="https://pitline.dev/install.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Install — Pitline">
+  <meta property="og:description" content="Install Pitline on macOS or Linux, start the local service, and launch your first coding agent in the browser.">
+  <meta property="og:url" content="https://pitline.dev/install.html">
+  <meta property="og:image" content="https://pitline.dev/assets/pitline-og.png">
   <link rel="icon" type="image/png" href="/assets/pitline-app-icon.png">
   <link rel="stylesheet" href="/site.css">
-  <title>Install — Pitline</title>
-  <meta name="description" content="Install Pitline on macOS or Linux. Runs on your computer. No accounts, no telemetry.">
+  <script src="/site.js" defer></script>
 </head>
 <body>
-  <header><a href="/"><img src="/assets/pitline-lockup-dark.png" alt="Pitline" width="900" height="300"></a></header>
-  <main class="page prose">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header shell"><a class="brand" href="/" aria-label="Pitline home"><img src="/assets/pitline-lockup-dark.png" alt="Pitline" width="900" height="300"></a><nav aria-label="Main navigation"><a href="/#features">Features</a><a href="/#agents">Agents</a><a href="/guide.html">Guide</a><a class="button button-small" href="/install.html">Install</a></nav></header>
+  <main class="page prose" id="main-content">
     <h1>Install Pitline</h1>
-    <p class="lede install-lede">Supervision for AI coding agents, on your machine. No account. No telemetry from the product.</p>
-
+    <p class="lede install-lede">Start supervising your coding agents from your browser. Pitline runs on your machine, with no Pitline account required.</p>
+    <p>Use macOS or Linux. Install and sign in to your preferred coding agent on the same machine first; Pitline uses that local agent installation and its existing provider account.</p>
     <div class="os-tabs" role="tablist" aria-label="Operating system">
       <button type="button" class="os-tab is-active" role="tab" id="tab-macos" aria-selected="true" aria-controls="panel-macos" data-os="macos">macOS</button>
       <button type="button" class="os-tab" role="tab" id="tab-linux" aria-selected="false" aria-controls="panel-linux" data-os="linux" tabindex="-1">Linux</button>
     </div>
-
-    <section class="os-panel is-active" role="tabpanel" id="panel-macos" aria-labelledby="tab-macos">
-      <h2>1. Install the binary</h2>
-      <p>Pick one. Homebrew or the curl installer both put <code>pitline</code> on your PATH.</p>
-
-      <h3>Homebrew</h3>
-      <div class="cmd" data-copy>
-        <pre><code>brew install pitlinehq/tap/pitline</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy Homebrew install command">Copy</button>
-      </div>
-
-      <h3>Curl installer</h3>
-      <div class="cmd" data-copy>
-        <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy curl install command">Copy</button>
-      </div>
-
-      <h2>2. Allow the unsigned build</h2>
-      <p>Mac builds are not Developer ID–signed yet. After install, clear the quarantine flag macOS adds to downloads:</p>
-      <div class="cmd" data-copy>
-        <pre><code>xattr -d com.apple.quarantine ~/.local/bin/pitline 2>/dev/null || true
-xattr -dr com.apple.quarantine "$(brew --prefix)/Cellar/pitline" 2>/dev/null || true</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy quarantine removal commands">Copy</button>
-      </div>
-      <p>If macOS still says the developer cannot be verified: <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>, or Control-click the binary in Finder → <strong>Open</strong> once.</p>
-
-      <h2>3. Start the service</h2>
-      <div class="cmd" data-copy>
-        <pre><code>pitline install-service
-pitline doctor</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy service install commands">Copy</button>
-      </div>
-      <p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> in your browser.</p>
-
-      <details class="more">
-        <summary>If the service will not start</summary>
-        <p>After Open Anyway, reset the agents and install again:</p>
-        <div class="cmd" data-copy>
-          <pre><code>launchctl bootout "gui/$(id -u)/com.pitline.daemon" 2>/dev/null || true
-launchctl bootout "gui/$(id -u)/com.pitline.keeper" 2>/dev/null || true
-pitline install-service</code></pre>
-          <button type="button" class="copy-btn" aria-label="Copy launchd reset commands">Copy</button>
-        </div>
-      </details>
-
-      <h2>4. Use from another Mac or phone on your Tailscale</h2>
-      <p>Bind off loopback, then open the UI at your Mac’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Keep auth off only on a network you trust—or set <code>local_auth = "token"</code>.</p>
-      <p>Show the current listen address:</p>
-      <div class="cmd" data-copy>
-        <pre><code>pitline bind</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
-      </div>
-      <p>Listen on all interfaces (LAN / Tailscale):</p>
-      <div class="cmd" data-copy>
-        <pre><code>pitline bind 0.0.0.0:7337</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
-      </div>
-      <p>Change only the port (keeps the current host):</p>
-      <div class="cmd" data-copy>
-        <pre><code>pitline bind 8443</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
-      </div>
+    <section class="os-panel is-active" role="tabpanel" id="panel-macos" aria-labelledby="tab-macos" tabindex="0">
+<h2>1. Install the binary</h2><p>Run the installer in your terminal, then follow its PATH instructions. Open a new terminal if needed.</p>
+<div class="cmd" data-copy><span class="command-label">Shell installer</span><pre><code>curl --proto &#x27;=https&#x27; --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre><button type="button" class="copy-btn" aria-label="Copy shell installer">Copy</button></div><p>Prefer a manual install? Download the archive for your operating system and processor from <a href="https://github.com/pitlinehq/releases/releases/latest">the latest release</a>, verify it against the accompanying checksum, then extract <code>pitline</code> into a directory on your PATH. Read the release notes for build requirements.</p>
+<details class="more"><summary>If macOS blocks an unsigned build</summary><p>Check the release notes for signing status. For an unsigned download you trust, try launching it once, then use <strong>System Settings → Privacy &amp; Security → Open Anyway</strong> if macOS offers that option. Allow the binary before installing the service.</p></details>
+<h2>2. Start the service</h2>
+<div class="cmd" data-copy><span class="command-label">Start and check Pitline</span><pre><code>pitline install-service
+pitline doctor</code></pre><button type="button" class="copy-btn" aria-label="Copy start and check pitline">Copy</button></div><p>The service installer sets up launchd agents for Pitline and its terminal keeper.</p>
+<p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> on this computer. If token authentication is enabled, run <code>pitline token</code> and enter its value in the browser’s sign-in form.</p>
+</section>
+    <section class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux" tabindex="0" hidden>
+<h2>1. Install the binary</h2><p>Run the installer in your terminal, then follow its PATH instructions. Open a new terminal if needed.</p>
+<div class="cmd" data-copy><span class="command-label">Shell installer</span><pre><code>curl --proto &#x27;=https&#x27; --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre><button type="button" class="copy-btn" aria-label="Copy shell installer">Copy</button></div><p>Prefer a manual install? Download the archive for your operating system and processor from <a href="https://github.com/pitlinehq/releases/releases/latest">the latest release</a>, verify it against the accompanying checksum, then extract <code>pitline</code> into a directory on your PATH. Read the release notes for build requirements.</p>
+<h2>2. Start the service</h2>
+<div class="cmd" data-copy><span class="command-label">Start and check Pitline</span><pre><code>pitline install-service
+pitline doctor</code></pre><button type="button" class="copy-btn" aria-label="Copy start and check pitline">Copy</button></div><p>The service installer sets up systemd user services and attempts to enable linger so they survive logout. If it reports a linger warning, follow the command it prints. Linux installations without systemd user services need a separate process supervisor.</p>
+<p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> on this computer. If token authentication is enabled, run <code>pitline token</code> and enter its value in the browser’s sign-in form.</p>
+</section>
+    <section id="first-session">
+      <h2>3. Start your first agent</h2>
+      <ol>
+        <li>Choose <strong>New agent</strong> and select an installed agent.</li>
+        <li>Choose your project under <strong>Launch folder</strong>, select <strong>Chat</strong>, then choose <strong>Start</strong> for that agent.</li>
+        <li>Send a small task, such as “Explain this project’s structure.” Follow the response and tool activity in Chat.</li>
+        <li>When a supported permission request appears, inspect it and approve or deny it. Available controls depend on the agent and how the session was started.</li>
+      </ol>
+      <p>Use <a href="/guide.html#agents">the agent compatibility guide</a> to understand managed and external sessions. If your project is missing, see <a href="/guide.html#troubleshooting">launch-folder setup</a>.</p>
     </section>
-
-    <section class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux" hidden>
-      <h2>1. Install the binary</h2>
-      <p>Pick one. Both put <code>pitline</code> on your PATH (often <code>~/.local/bin</code>).</p>
-
-      <h3>Curl installer</h3>
-      <div class="cmd" data-copy>
-        <pre><code>curl --proto '=https' --tlsv1.2 -LsSf https://github.com/pitlinehq/releases/releases/latest/download/pitline-installer.sh | sh</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy curl install command">Copy</button>
-      </div>
-
-      <h3>Homebrew (Linuxbrew)</h3>
-      <div class="cmd" data-copy>
-        <pre><code>brew install pitlinehq/tap/pitline</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy Homebrew install command">Copy</button>
-      </div>
-
-      <h2>2. Start the service</h2>
-      <div class="cmd" data-copy>
-        <pre><code>pitline install-service
-pitline doctor</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy service install commands">Copy</button>
-      </div>
-      <p><code>install-service</code> writes and enables the systemd user units. Enable linger so they keep running after logout:</p>
-      <div class="cmd" data-copy>
-        <pre><code>loginctl enable-linger $USER</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy enable-linger command">Copy</button>
-      </div>
-      <p>Open <a href="http://127.0.0.1:7337">http://127.0.0.1:7337</a> in your browser.</p>
-
-      <h2>3. Use from another device on your Tailscale</h2>
-      <p>Bind off loopback, then open the UI at this machine’s Tailscale IP. <code>pitline bind</code> updates config and restarts the service when installed. Use Tailscale ACLs, or set <code>local_auth = "token"</code>.</p>
-      <p>Show the current listen address:</p>
-      <div class="cmd" data-copy>
-        <pre><code>pitline bind</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy show bind command">Copy</button>
-      </div>
-      <p>Listen on all interfaces (LAN / Tailscale):</p>
-      <div class="cmd" data-copy>
-        <pre><code>pitline bind 0.0.0.0:7337</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy LAN bind command">Copy</button>
-      </div>
-      <p>Change only the port (keeps the current host):</p>
-      <div class="cmd" data-copy>
-        <pre><code>pitline bind 8443</code></pre>
-        <button type="button" class="copy-btn" aria-label="Copy port-only bind command">Copy</button>
-      </div>
+    <section>
+      <h2>4. Open Pitline on your phone</h2>
+      <p>Connect your computer and phone over a private network, enable token authentication, and open your computer’s private address in the phone’s browser. Follow the <a href="/guide.html#remote-access">remote-access guide</a> before changing the listening address.</p>
     </section>
-
-    <p class="note">Pitline runs on your machine. No Pitline Inc. account. The client does not send analytics or telemetry.</p>
+    <p class="note">Need help? See <a href="/guide.html#troubleshooting">troubleshooting</a>, <a href="/guide.html#updates">updates and removal</a>, or <a href="/contact.html">contact us</a>.</p>
   </main>
-  <footer>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/install.html">Install</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/privacy.html">Privacy</a>
-      <a href="/terms.html">Terms</a>
-    </nav>
-    <div>Pitline Inc., a Delaware C-corporation</div>
-    <div>3015 Equestrian Drive, Boca Raton, FL 33434-3357</div>
-    <div><a href="mailto:max@pitline.dev">max@pitline.dev</a></div>
-    <div class="legal">© 2026 Pitline Inc.</div>
-  </footer>
-  <script>
-  (function () {
-    var tabs = Array.prototype.slice.call(document.querySelectorAll('.os-tab'));
-    var panels = {
-      macos: document.getElementById('panel-macos'),
-      linux: document.getElementById('panel-linux')
-    };
-    function show(os) {
-      tabs.forEach(function (tab) {
-        var on = tab.getAttribute('data-os') === os;
-        tab.classList.toggle('is-active', on);
-        tab.setAttribute('aria-selected', on ? 'true' : 'false');
-        tab.tabIndex = on ? 0 : -1;
-      });
-      Object.keys(panels).forEach(function (key) {
-        var panel = panels[key];
-        var on = key === os;
-        panel.classList.toggle('is-active', on);
-        if (on) panel.removeAttribute('hidden');
-        else panel.setAttribute('hidden', '');
-      });
-      try { localStorage.setItem('pitline-install-os', os); } catch (e) {}
-    }
-    tabs.forEach(function (tab) {
-      tab.addEventListener('click', function () { show(tab.getAttribute('data-os')); });
-    });
-    var prefer = null;
-    try { prefer = localStorage.getItem('pitline-install-os'); } catch (e) {}
-    if (!prefer && /Mac|iPhone|iPad/.test(navigator.platform || '')) prefer = 'macos';
-    else if (!prefer && /Linux/.test(navigator.platform || '')) prefer = 'linux';
-    if (prefer === 'linux' || prefer === 'macos') show(prefer);
-
-    document.querySelectorAll('.cmd[data-copy]').forEach(function (wrap) {
-      var btn = wrap.querySelector('.copy-btn');
-      var code = wrap.querySelector('code');
-      if (!btn || !code) return;
-      btn.addEventListener('click', function () {
-        var text = code.innerText.replace(/\n$/, '');
-        function done() {
-          var prev = btn.textContent;
-          btn.textContent = 'Copied';
-          btn.classList.add('is-copied');
-          setTimeout(function () {
-            btn.textContent = prev;
-            btn.classList.remove('is-copied');
-          }, 1400);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(done).catch(function () {
-            fallback(text); done();
-          });
-        } else {
-          fallback(text); done();
-        }
-      });
-    });
-    function fallback(text) {
-      var ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand('copy'); } catch (e) {}
-      document.body.removeChild(ta);
-    }
-  })();
-  </script>
+  <footer class="site-footer shell"><nav aria-label="Footer navigation"><a href="/install.html">Install</a><a href="/guide.html">Guide</a><a href="https://github.com/pitlinehq/pitline">Source</a><a href="https://github.com/pitlinehq/releases/releases">Releases</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav><div class="footer-meta"><div>Pitline Inc., a Delaware C-corporation<br>3015 Equestrian Drive, Boca Raton, FL 33434-3357</div><div><a href="mailto:max@pitline.dev">max@pitline.dev</a><br>© 2026 Pitline Inc.</div></div></footer>
 </body>
 </html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide — Pitline</title>
+  <meta name="description" content="Learn which coding agents Pitline supports, start a session, connect from your phone, and troubleshoot your local installation.">
+  <link rel="canonical" href="https://pitline.dev/guide.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Guide — Pitline">
+  <meta property="og:description" content="Learn which coding agents Pitline supports, start a session, connect from your phone, and troubleshoot your local installation.">
+  <meta property="og:url" content="https://pitline.dev/guide.html">
+  <meta property="og:image" content="https://pitline.dev/assets/pitline-og.png">
+  <link rel="icon" type="image/png" href="/assets/pitline-app-icon.png">
+  <link rel="stylesheet" href="/site.css">
+  <script src="/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header shell"><a class="brand" href="/" aria-label="Pitline home"><img src="/assets/pitline-lockup-dark.png" alt="Pitline" width="900" height="300"></a><nav aria-label="Main navigation"><a href="/#features">Features</a><a href="/#agents">Agents</a><a href="/guide.html">Guide</a><a class="button button-small" href="/install.html">Install</a></nav></header>
+  <main class="page prose" id="main-content">
+    <h1>Your first session and beyond</h1>
+    <p class="lede">Supervise coding agents in Chat, step into Terminal when you need it, and reconnect from another device.</p>
+    <nav aria-label="On this page"><a href="#agents">Supported agents</a> · <a href="#first-session">First session</a> · <a href="#terminals">Terminals</a> · <a href="#remote-access">Phone access</a> · <a href="#troubleshooting">Troubleshooting</a> · <a href="#updates">Updates</a></nav>
+    <section id="agents">
+      <h2>Supported agents</h2>
+      <p>For interactive Chat and supported approval controls, start a session from Pitline. Sessions started elsewhere can have fewer controls. Pitline shows only the actions available for the current session.</p>
+      <div class="table-scroll" role="region" aria-label="Agent compatibility" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Agent</th><th scope="col">Started by Pitline</th><th scope="col">Started elsewhere</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Claude Code</th><td>Chat, messages, interruption and supported approvals.</td><td>Conversation history and lifecycle monitoring. Terminal interaction; optional hook-based tool approvals.</td></tr>
+            <tr><th scope="row">Codex</th><td>Chat, messages, steering, interruption and approvals.</td><td>A standalone TUI is history-only in Chat. A TUI connected to Pitline’s shared app-server can share control.</td></tr>
+            <tr><th scope="row">Grok</th><td>Chat, messages, steering, interruption and approvals while Pitline owns the session.</td><td>Active-session discovery and read-only conversation history. Interact through its terminal.</td></tr>
+            <tr><th scope="row">OpenCode</th><td>Chat, messages, interruption and permission responses.</td><td>Read-only history for sessions exposed by the connected server; external sessions appear while active there.</td></tr>
+            <tr><th scope="row">Pi</th><td colspan="2">Terminal access with hook-based lifecycle monitoring. No structured Chat or standalone agent-list card.</td></tr>
+            <tr><th scope="row">Other CLIs</th><td colspan="2">Plain terminal access. No structured Chat or agent-native approval controls; inferred activity is approximate.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Agent software and provider credentials are installed separately. Supported actions depend on the installed agent’s protocol and session ownership.</p>
+    </section>
+    <section id="first-session">
+      <h2>Start with one small task</h2>
+      <p>After <a href="/install.html">installing Pitline</a>, open <a href="http://127.0.0.1:7337">the local app</a>. Choose <strong>New agent</strong>, your agent, and a <strong>Launch folder</strong>. Select <strong>Chat</strong>, then <strong>Start</strong> for that agent.</p>
+      <p>Ask the agent to explain the project. Follow its messages and tool activity, then give it a bounded change. Review any approval card before responding. Use interruption or steering when those controls are available. Switch to <strong>Terminal</strong> for a session’s terminal interface.</p>
+      <h3>Monitoring sessions you already run</h3>
+      <p>Supported agents can expose existing sessions to Pitline. If the app offers hook setup for your installed agent, follow that setup. For Pi lifecycle monitoring, install its extension and start a fresh Pi session:</p>
+<div class="cmd" data-copy><span class="command-label">Install Pi lifecycle integration</span><pre><code>pitline integration install pi</code></pre><button type="button" class="copy-btn" aria-label="Copy install pi lifecycle integration">Copy</button></div>
+      <h3>Optional approvals for external Claude sessions</h3>
+      <p>Install Claude hooks, then set <code>remote_approval = "on"</code> at the top level of your <a href="#configuration">Pitline configuration</a> and restart the daemon with <code>pitline install-service</code>. Start a fresh Claude session after installing the hooks.</p>
+<div class="cmd" data-copy><span class="command-label">Install Claude hooks</span><pre><code>pitline integration install claude</code></pre><button type="button" class="copy-btn" aria-label="Copy install claude hooks">Copy</button></div>
+      <p>This opt-in lets supported tool requests wait for a browser decision. If no decision arrives within ten minutes, control returns to Claude’s own permission flow. Some prompts, including plan approval in affected Claude versions, still need a response in Claude’s terminal. External Codex and Grok hooks are observational and do not grant browser approval control.</p>
+    </section>
+    <section id="terminals">
+      <h2>Terminals alongside your agents</h2>
+      <p>Pitline is also a terminal multiplexer: organize native terminal sessions into workspaces, tabs and panes, and access them in your browser. Ordinary shells work without an AI agent. For example, create a native Bash pane from your local terminal:</p>
+<div class="cmd" data-copy><span class="command-label">Create a plain terminal</span><pre><code>pitline new -t &quot;Terminal&quot; -- bash</code></pre><button type="button" class="copy-btn" aria-label="Copy create a plain terminal">Copy</button></div>
+      <p>Pitline can discover local <strong>Herdr</strong> sessions and expose their terminals, with available actions determined by the provider. Keep Herdr running on the same computer. <strong>tmux support is coming soon.</strong></p>
+      <h3>What survives reconnecting?</h3>
+      <p>Closing a browser tab does not stop the session. Reopen Pitline to reconnect while your computer and the session remain running. Native terminal sessions can survive a Pitline daemon restart when the separate keeper service is healthy; they do not survive a computer reboot or keeper shutdown. Agent-process recovery depends on the integration.</p>
+      <p>Retained Chat history can be replayed; it is subject to local retention settings. Herdr owns its terminal history. The active terminal viewer controls its size, so opening a pane on your phone can resize the terminal.</p>
+    </section>
+    <section id="configuration">
+      <h2>Find your configuration</h2>
+      <p>The first run creates a configuration file. Edit the existing file and preserve its other settings:</p>
+      <ul><li>Linux: <code>~/.config/pitline/config.toml</code>, or <code>$XDG_CONFIG_HOME/pitline/config.toml</code> when set.</li><li>macOS: <code>~/Library/Application Support/pitline/config.toml</code>.</li></ul>
+      <p>A custom <code>PITLINE_CONFIG</code> overrides this path. Settings such as <code>bind</code>, <code>local_auth</code> and <code>remote_approval</code> belong at the top of the file, before any table headings. Run <code>pitline install-service</code> after editing to restart an installed daemon.</p>
+    </section>
+    <section id="remote-access">
+      <h2>Use Pitline from your phone</h2>
+      <p>Your phone connects directly to the computer running Pitline. A private Tailscale or WireGuard network can connect them without opening a public port. Keep the computer awake and restrict access to your own devices with the network’s access controls.</p>
+      <ol>
+        <li>Set up the private network on both devices. Find the computer’s private network IP address.</li>
+        <li>In your <a href="#configuration">configuration file</a>, set <code>local_auth = "token"</code>. Set <code>bind</code> to the computer’s private network IP and port <code>7337</code>, as shown below. Replace the example IP with your computer’s address.</li>
+        <li>Restart Pitline, then print its local access token with the commands below.</li>
+        <li>On your phone, open <code>http://YOUR-COMPUTER-PRIVATE-IP:7337</code>. Paste the token into the sign-in form and choose <strong>Sign in</strong>. Keep the token private: it grants control of Pitline.</li>
+      </ol>
+<div class="cmd" data-copy><span class="command-label">Example configuration — replace the IP</span><pre><code>bind = &quot;100.101.102.103:7337&quot;
+local_auth = &quot;token&quot;</code></pre><button type="button" class="copy-btn" aria-label="Copy example configuration — replace the ip">Copy</button></div><div class="cmd" data-copy><span class="command-label">Restart and get your sign-in token</span><pre><code>pitline install-service
+pitline token</code></pre><button type="button" class="copy-btn" aria-label="Copy restart and get your sign-in token">Copy</button></div>
+      <p>Pitline serves plain HTTP. The private network supplies transport encryption between its devices; token authentication controls access to the app. Choosing a port such as <code>8443</code> does not enable HTTPS. For access outside an encrypted private network, use a properly configured HTTPS reverse proxy and keep token authentication enabled.</p>
+      <p>A bind address of <code>0.0.0.0</code> listens on every IPv4 interface, including LAN interfaces. With authentication off, every reachable client can control sessions. Bind to the intended private address and enable authentication before connecting from another device.</p>
+      <p>After binding only to the private address, use that address on the computer too; the loopback URL will no longer be listening. Hosted relay access, native mobile apps and push notifications remain planned. Phone access today is through the browser.</p>
+    </section>
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <h3>The app will not open</h3>
+      <p>Run <code>pitline doctor</code> and check its daemon, keeper and environment results. Confirm the service installation succeeded. Run <code>pitline bind</code> to inspect the configured address. For phone access, check that both devices are connected to the private network and its access controls allow the connection.</p>
+      <h3>My agent or project is missing</h3>
+      <p>Install and authenticate the agent on the same computer, then rerun <code>pitline install-service</code> so the service picks up its executable path. The launch-folder catalog initially searches Git repositories within two levels of <code>~/code</code>, if that directory exists, or your home directory otherwise.</p>
+      <p>Add a launch root to your configuration for another project location, using a unique <code>id</code>. This example also lists ordinary folders:</p>
+<div class="cmd" data-copy><span class="command-label">Example launch root</span><pre><code>[[launch_roots]]
+id = &quot;projects&quot;
+label = &quot;Projects&quot;
+path = &quot;~/projects&quot;
+kind = &quot;repo-root&quot;
+max_depth = 2
+include_plain = true</code></pre><button type="button" class="copy-btn" aria-label="Copy example launch root">Copy</button></div>
+      <p>Replace the path with your project directory, restart using <code>pitline install-service</code>, and reopen the launch form. Paths outside configured roots are not available to browser launches.</p>
+      <h3>An approval or message control is unavailable</h3>
+      <p>Check <a href="#agents">the agent table</a> and whether Pitline started the session. A readable transcript does not imply writable Chat. Use the session’s terminal for prompts that its integration cannot resolve.</p>
+      <h3>I need more help</h3>
+      <p><a href="/contact.html">Contact support</a> with your OS, Pitline and agent versions, the steps that failed, and relevant <code>pitline doctor</code> output. Remove access tokens, credentials and private project content before sharing.</p>
+    </section>
+    <section id="updates">
+      <h2>Update or remove Pitline</h2>
+      <h3>Update</h3>
+      <p>Read <a href="https://github.com/pitlinehq/releases/releases">the release notes</a>, then rerun the <a href="/install.html">shell installer</a> or replace your manual installation with the new archive. Run the commands below to refresh the service and check it:</p>
+<div class="cmd" data-copy><span class="command-label">Refresh and check the service</span><pre><code>pitline install-service
+pitline doctor</code></pre><button type="button" class="copy-btn" aria-label="Copy refresh and check the service">Copy</button></div>
+      <p>The service installer restarts the daemon and leaves an already running keeper in place. Finish critical agent work before updating; structured agent recovery varies by integration.</p>
+      <h3>Remove</h3>
+      <p>Finish active work first. The following command stops and removes both the daemon and keeper services, ending sessions that rely on them:</p>
+<div class="cmd" data-copy><span class="command-label">Stop and remove services</span><pre><code>pitline uninstall-service</code></pre><button type="button" class="copy-btn" aria-label="Copy stop and remove services">Copy</button></div>
+      <p>Then remove the <code>pitline</code> executable from the location used by your installer or manual installation. Service removal keeps your configuration and local history. If you installed agent hooks or the Pi extension, remove the Pitline entries from that agent’s configuration before deleting the executable.</p>
+      <p>The local daemon, CLI and embedded UI are open source under Apache-2.0. See the <a href="https://github.com/pitlinehq/pitline">source repository</a> and <a href="https://github.com/pitlinehq/pitline/blob/HEAD/LICENSE">license</a>.</p>
+    </section>
+  </main>
+  <footer class="site-footer shell"><nav aria-label="Footer navigation"><a href="/install.html">Install</a><a href="/guide.html">Guide</a><a href="https://github.com/pitlinehq/pitline">Source</a><a href="https://github.com/pitlinehq/releases/releases">Releases</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav><div class="footer-meta"><div>Pitline Inc., a Delaware C-corporation<br>3015 Equestrian Drive, Boca Raton, FL 33434-3357</div><div><a href="mailto:max@pitline.dev">max@pitline.dev</a><br>© 2026 Pitline Inc.</div></div></footer>
+</body>
+</html>
